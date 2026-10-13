@@ -1,0 +1,76 @@
+{
+  "buttons" : {
+    "A" : "mode:threeFinger",
+    "B" : "mode:fourFinger",
+    "Down" : {
+      "action" : "key:down",
+      "repeat" : true
+    },
+    "Home" : "toggle",
+    "L3" : "key:cmd+space",
+    "LB" : "key:cmd+[",
+    "LT" : "precision",
+    "Left" : {
+      "action" : "key:left",
+      "repeat" : true
+    },
+    "R3" : "middleClick",
+    "RB" : "rightClick",
+    "RT" : "turbo",
+    "Right" : {
+      "action" : "key:right",
+      "repeat" : true
+    },
+    "Select" : "key:escape",
+    "Start" : "key:return",
+    "Up" : {
+      "action" : "key:up",
+      "repeat" : true
+    },
+    "X" : "leftClick",
+    "Y" : "mode:twoFinger"
+  },
+  "cursorSpeed" : 1600,
+  "deadzone" : 0.15,
+  "invertScroll" : false,
+  "layout" : "xbox",
+  "leftStick" : "cursor",
+  "modes" : {
+    "fourFinger" : {
+      "down" : "app:/System/Applications/Apps.app",
+      "label" : "4指",
+      "left" : "appSwitchPrev",
+      "right" : "appSwitchNext",
+      "stick" : "flick",
+      "up" : "key:f11"
+    },
+    "threeFinger" : {
+      "down" : "key:ctrl+down",
+      "label" : "3指",
+      "left" : "key:ctrl+left",
+      "right" : "key:ctrl+right",
+      "stick" : "flick",
+      "tap" : "key:ctrl+cmd+d",
+      "up" : "app:/System/Applications/Mission Control.app"
+    },
+    "twoFinger" : {
+      "buttons" : {
+        "Down" : {
+          "action" : "media:volumeDown",
+          "repeat" : true
+        },
+        "Left" : "media:previous",
+        "Right" : "media:next",
+        "Up" : {
+          "action" : "media:volumeUp",
+          "repeat" : true
+        }
+      },
+      "label" : "2指",
+      "stick" : "scroll",
+      "tap" : "rightClick"
+    }
+  },
+  "rightStick" : "scroll",
+  "scrollSpeed" : 2200
+}
