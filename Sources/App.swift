@@ -22,10 +22,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         refreshTitle()
 
         let opts = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
-        if !AXIsProcessTrustedWithOptions(opts) {
-            log("需要辅助功能权限：系统设置 → 隐私与安全性 → 辅助功能")
+        trusted = AXIsProcessTrustedWithOptions(opts)
+        log("辅助功能权限：\(trusted ? "已授权" : "未授权")")
+        refreshTitle()
+
+        // 授权状态可能随时变化（授权 / 重新编译后失效），定期检查
+        let t = Timer(timeInterval: 2, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated {
+                guard let self else { return }
+                let now = AXIsProcessTrusted()
+                if now != self.trusted {
+                    self.trusted = now
+                    log("辅助功能权限：\(now ? "已授权" : "未授权")")
+                    self.refreshTitle()
+                }
+            }
         }
+        RunLoop.main.add(t, forMode: .common)
     }
+
+    private var trusted = true
 
     func refreshTitle() {
         guard let button = item.button else { return }
@@ -35,7 +51,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // 暂停或未连接时图标变灰
         button.appearsDisabled = !connected || !engine.enabled
         let label = engine.enabled ? engine.modeLabel.map { " " + $0 } ?? "" : ""
-        button.title = label + (store.error == nil ? "" : " ⚠️")
+        button.title = label + (store.error == nil && trusted ? "" : " ⚠️")
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {

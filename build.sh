@@ -26,7 +26,14 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>LSMinimumSystemVersion</key><string>13.0</string>
 </dict></plist>
 PLIST
-codesign --force --sign - --identifier local.gc2mouse "$APP"
+# 有本机签名证书就用它（重新编译不丢辅助功能授权），没有就退回临时签名
+SIGN_ID="gc2mouse Local Signing"
+if security find-identity -p codesigning | grep -q "\"$SIGN_ID\""; then
+  codesign --force --sign "$SIGN_ID" --identifier local.gc2mouse "$APP"
+else
+  echo "提示：未找到证书「$SIGN_ID」，使用临时签名。运行 ./scripts/setup_signing.sh 后重新编译不用再授权。"
+  codesign --force --sign - --identifier local.gc2mouse "$APP"
+fi
 echo "OK: $APP"
 
 if [[ "$1" == "--install" ]]; then

@@ -16,10 +16,10 @@ cd gc2mouse
 ./build.sh --install
 ```
 
-App 会被装到 `~/Applications/gc2mouse.app` 并启动，菜单栏出现手柄图标。
+App 会被装到个人目录的 `~/Applications/gc2mouse.app`（不是系统的 /Applications）并启动，菜单栏出现手柄图标。
 
-首次运行要授权：系统设置 → 隐私与安全性 → 辅助功能 → 打开 gc2mouse，然后重启 App。
-App 是本地自签名的，**每次重新编译后都要重新授权**。
+首次运行要授权：系统设置 → 隐私与安全性 → 辅助功能，把 `~/Applications/gc2mouse.app` 拖进列表并打开。授权后无需重启，菜单栏的 ⚠️ 消失即生效。
+App 默认用临时签名，**每次重新编译后都要重新授权**，可以用下面「重新编译后不丢授权」一节的方法解决。
 
 ## 默认按键
 
@@ -146,3 +146,13 @@ GC2MOUSE_DEBUG=1 ~/Applications/gc2mouse.app/Contents/MacOS/gc2mouse
 ## 图标
 
 `Icon/draw.swift` 用代码绘制图标，改完运行 `./Icon/make_icns.sh` 重新生成 `Resources/AppIcon.icns`。
+
+## 重新编译后不丢授权
+
+默认是临时签名，每次重新编译都要在「辅助功能」里删掉 gc2mouse 再重新添加。运行一次：
+
+```bash
+./scripts/setup_signing.sh
+```
+
+会在登录钥匙串里创建本机自签名证书「gc2mouse Local Signing」，之后 `build.sh` 自动用它签名，授权一直有效。第一次签名时系统会弹窗，输入登录密码并点「始终允许」。
