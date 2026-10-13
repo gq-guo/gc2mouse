@@ -16,7 +16,7 @@ cd gc2mouse
 ./build.sh --install
 ```
 
-App 会被装到 `~/Applications/gc2mouse.app` 并启动，菜单栏出现 🎮。
+App 会被装到 `~/Applications/gc2mouse.app` 并启动，菜单栏出现手柄图标。
 
 首次运行要授权：系统设置 → 隐私与安全性 → 辅助功能 → 打开 gc2mouse，然后重启 App。
 App 是本地自签名的，**每次重新编译后都要重新授权**。

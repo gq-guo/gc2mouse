@@ -28,9 +28,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func refreshTitle() {
-        let icon = engine.controllerName == nil ? "🎮✕" : engine.enabled ? "🎮" : "🎮⏸"
+        guard let button = item.button else { return }
+        let connected = engine.controllerName != nil
+        button.image = connected ? StatusIcon.normal : StatusIcon.disconnected
+        button.imagePosition = .imageLeft
+        // 暂停或未连接时图标变灰
+        button.appearsDisabled = !connected || !engine.enabled
         let label = engine.enabled ? engine.modeLabel.map { " " + $0 } ?? "" : ""
-        item.button?.title = icon + label + (store.error == nil ? "" : " ⚠️")
+        button.title = label + (store.error == nil ? "" : " ⚠️")
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
