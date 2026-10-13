@@ -2,7 +2,7 @@
 
 import Cocoa
 
-let debug = ProcessInfo.processInfo.environment["GPM_DEBUG"] == "1"
+let debug = ProcessInfo.processInfo.environment["GC2MOUSE_DEBUG"] == "1"
 func log(_ s: String) { if debug { print(s); fflush(stdout) } }
 
 @MainActor

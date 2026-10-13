@@ -1,4 +1,4 @@
-// GamepadMouse — 把游戏手柄变成鼠标 / 触控板（菜单栏常驻）
+// gc2mouse — 把游戏手柄变成鼠标 / 触控板（菜单栏常驻）
 
 import Cocoa
 

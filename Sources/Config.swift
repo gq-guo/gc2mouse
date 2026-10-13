@@ -1,4 +1,4 @@
-// 配置文件：~/.config/GamepadMouse/config.json
+// 配置文件：~/.config/gc2mouse/config.json
 // 用户只需写想改的部分，其余沿用默认值。
 
 import Foundation
@@ -292,14 +292,24 @@ func parseAction(_ raw: String, modes: Set<String>, inMode: Bool) throws -> Acti
 @MainActor
 final class ConfigStore {
     let url = FileManager.default.homeDirectoryForCurrentUser
-        .appendingPathComponent(".config/GamepadMouse/config.json")
+        .appendingPathComponent(".config/gc2mouse/config.json")
     private(set) var raw = Config.defaults
     private(set) var compiled: Compiled = try! Config.defaults.compile()
     private(set) var error: String?
     private var mtime: Date?
 
     init() {
-        if !FileManager.default.fileExists(atPath: url.path) { try? write(Config.defaults) }
+        let fm = FileManager.default
+        if !fm.fileExists(atPath: url.path) {
+            // 旧版本（GamepadMouse）的配置搬过来，没有就写默认配置
+            let old = fm.homeDirectoryForCurrentUser.appendingPathComponent(".config/GamepadMouse/config.json")
+            try? fm.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            if (try? fm.moveItem(at: old, to: url)) != nil {
+                try? fm.removeItem(at: old.deletingLastPathComponent())
+            } else {
+                try? write(Config.defaults)
+            }
+        }
         load()
     }
 

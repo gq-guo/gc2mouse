@@ -1,5 +1,7 @@
 # gc2mouse
 
+<img src="Resources/icon-1024.png" width="128" alt="gc2mouse 图标">
+
 把游戏手柄变成 Mac 的鼠标 / 触控板。菜单栏常驻，按键可以通过 JSON 配置文件自定义。
 
 支持 Xbox、PS、8BitDo 等 macOS GameController 能识别的手柄。
@@ -14,9 +16,9 @@ cd gc2mouse
 ./build.sh --install
 ```
 
-App 会被装到 `~/Applications/GamepadMouse.app` 并启动，菜单栏出现 🎮。
+App 会被装到 `~/Applications/gc2mouse.app` 并启动，菜单栏出现 🎮。
 
-首次运行要授权：系统设置 → 隐私与安全性 → 辅助功能 → 打开 GamepadMouse，然后重启 App。
+首次运行要授权：系统设置 → 隐私与安全性 → 辅助功能 → 打开 gc2mouse，然后重启 App。
 App 是本地自签名的，**每次重新编译后都要重新授权**。
 
 ## 默认按键
@@ -40,7 +42,7 @@ App 是本地自签名的，**每次重新编译后都要重新授权**。
 
 ## 自定义按键
 
-配置文件：`~/.config/GamepadMouse/config.json`（菜单 → 编辑按键配置）。
+配置文件：`~/.config/gc2mouse/config.json`（菜单 → 编辑按键配置）。旧版 GamepadMouse 的配置会自动迁移过来。
 
 - 保存后约 1 秒自动生效，不用重启。
 - 只写想改的部分即可，没写的沿用默认值。完整默认配置见 [config.example.json](config.example.json)。
@@ -131,7 +133,7 @@ A/B/X/Y 指手柄上**印的字**，和 `layout` 配合使用。
 ## 调试
 
 ```bash
-GPM_DEBUG=1 ~/Applications/GamepadMouse.app/Contents/MacOS/GamepadMouse
+GC2MOUSE_DEBUG=1 ~/Applications/gc2mouse.app/Contents/MacOS/gc2mouse
 ```
 
 会打印按键按下 / 松开和配置加载情况，可以用来确认按键名对应哪个物理键。
@@ -140,3 +142,7 @@ GPM_DEBUG=1 ~/Applications/GamepadMouse.app/Contents/MacOS/GamepadMouse
 
 - macOS 不允许程序模拟真实的多指触控，「双指 / 三指 / 四指」用滚动事件和系统快捷键实现，没有捏合缩放。
 - 依赖辅助功能权限发送鼠标 / 键盘事件。
+
+## 图标
+
+`Icon/draw.swift` 用代码绘制图标，改完运行 `./Icon/make_icns.sh` 重新生成 `Resources/AppIcon.icns`。
